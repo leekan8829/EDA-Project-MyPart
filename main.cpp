@@ -341,7 +341,23 @@ int main(int argc, char *argv[]){
     double ratio_x = (double)Area_X / ((double)Area_X+(double)Area_Y);
     double ratio_y = (double)Area_Y / ((double)Area_X+(double)Area_Y);
 
+    int actual_cutsize = 0;
 
+    int h_flag = 1;
+    for(int i=0;i<part.size();i++){
+
+        h_flag = 0;
+
+        for(auto &v:mygraph.re_adjList_[re_node_dict[i]]){
+            if(part[i]!=part[node_dict[v]]){
+                h_flag=1;
+                break;
+            }
+        }
+        if(h_flag==1){
+            actual_cutsize = actual_cutsize + mygraph.re_adjList_[re_node_dict[i]].size();
+        }
+    }
 
     cout << "Partition X" << endl;
     cout << "Nodes: ";
@@ -366,7 +382,7 @@ int main(int argc, char *argv[]){
     cout << Area_Y << endl;
     cout << "Ratio: ";
     cout << setprecision(3)<<ratio_y << endl;
-    cout << "Cut size: " << cut << endl;
+    cout << "Cut size: " << actual_cutsize << endl;
     cout << "END" << endl;
     return 0;
 }
